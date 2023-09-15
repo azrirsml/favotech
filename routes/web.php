@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\CarController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RateController;
+use App\Http\Controllers\RentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,6 +30,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::post('cars/{car}/rent', [CarController::class, 'rent'])->name('cars.rent');
+    Route::resource('cars', CarController::class);
+
+    Route::get('payment-received/{rent}', PaymentController::class)->name('payment_received');
+    Route::get('rents', RentController::class)->name('rents.index');
+    Route::resource('rates', RateController::class)->only('create', 'store');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

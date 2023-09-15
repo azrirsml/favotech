@@ -39,4 +39,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function cars()
+    {
+        return $this->hasMany(Car::class, 'owner_id');
+    }
+
+    public function rents()
+    {
+        return $this->hasMany(Rent::class, 'tenant_id');
+    }
+
+    public function isOwner()
+    {
+        return auth()->user()->hasRole('owner');
+    }
 }
