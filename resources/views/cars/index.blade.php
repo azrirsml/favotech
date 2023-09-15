@@ -65,13 +65,11 @@
                     <td>{{ $car->description }}</td>
                     <td>{{ $car->available_date }}</td>
                     <td>
-                        <div class="btn btn-group">
-                            @role('owner|admin')
-                                <a class="btn btn-primary btn-sm" href="{{ route('cars.edit', $car) }}">Edit</a>
-                            @else
-                                <a class="btn btn-primary btn-sm" href="{{ route('cars.show', $car) }}">Rent</a>
-                            @endrole
-                        </div>
+                        @role('owner|admin')
+                            <a class="btn btn-primary btn-sm" href="{{ route('cars.edit', $car) }}">Edit</a>
+                        @else
+                            <a class="btn btn-primary btn-sm" href="{{ route('cars.show', $car) }}">Rent</a>
+                        @endrole
                     </td>
                 </tr>
             @endforeach

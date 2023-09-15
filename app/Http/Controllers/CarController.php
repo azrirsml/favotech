@@ -89,6 +89,6 @@ class CarController extends Controller
             }
         }
 
-        return to_route('cars.index', ['cars' => Car::carLists()]);
+        return to_route('cars.index');
     }
 }

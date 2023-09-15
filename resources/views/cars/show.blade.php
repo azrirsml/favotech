@@ -17,6 +17,35 @@
                 <p class="fw-bold fs-6 text-uppercase">{{ $car->available_date }}</p>
             </div>
         </div>
+
+        <div class="col-12">
+            <label class="form-label text-gray-400">Images</label> <br>
+
+            <div class="carousel carousel-custom slide" id="kt_carousel_1_carousel" data-bs-ride="carousel" data-bs-interval="1500">
+                <!--begin::Heading-->
+                <div class="d-flex align-items-center justify-content-between flex-wrap">
+                    <!--begin::Label-->
+                    <!--begin::Carousel Indicators-->
+                    <ol class="carousel-indicators carousel-indicators-dots m-0 p-0">
+                        <li class="active ms-1" data-bs-target="#kt_carousel_1_carousel" data-bs-slide-to="0"></li>
+                        <li class="ms-1" data-bs-target="#kt_carousel_1_carousel" data-bs-slide-to="1"></li>
+                    </ol>
+                    <!--end::Carousel Indicators-->
+                </div>
+                <!--end::Heading-->
+
+                <!--begin::Carousel-->
+                <div class="carousel-inner pt-8">
+                    @foreach ($car->getMedia('car_images') as $index => $image)
+                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                            <img class="w-100 h-50" src="{{ $image->getUrl() }}" alt="">
+                        </div>
+                    @endforeach
+                </div>
+                <!--end::Carousel-->
+            </div>
+
+        </div>
     </x-card>
 
     <x-card>
