@@ -128,6 +128,15 @@ class CreatePermissionTables extends Migration
         \DB::table('roles')->insert([
             ['name' => 'tenant', 'guard_name' => 'web'],
             ['name' => 'owner', 'guard_name' => 'web'],
+            ['name' => 'admin', 'guard_name' => 'web'],
+        ]);
+
+        \DB::table('users')->insert([
+            ['name' => 'admin', 'email' => 'admin@email.com', 'password' => bcrypt('password')],
+        ]);
+
+        \DB::table('model_has_roles')->insert([
+            ['role_id' => 1, 'model_type' => 'App\Models\User', 'model_id' => 1],
         ]);
     }
 
