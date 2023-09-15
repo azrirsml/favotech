@@ -13,33 +13,63 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form class="mt-6 space-y-6" method="post" action="{{ route('profile.update') }}">
         @csrf
         @method('patch')
 
         <div>
             <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
+            <x-text-input class="form-control mt-1" id="name" name="name" type="text" :value="old('name', $user->name)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
         <div>
+            <x-input-label for="name" :value="__('Address')" />
+            <x-text-input class="form-control mt-1" id="name" name="address" type="text" :value="old('address', $user->address)" required autofocus autocomplete="name" />
+            <x-input-error class="mt-2" :messages="$errors->get('address')" />
+        </div>
+
+        <div>
+            <x-input-label for="name" :value="__('State')" />
+            <select class="form-select mt-1" id="" name="state_id">
+                @foreach ($states as $state)
+                    <option value="{{ $state->id }}" @selected(old('state_id', $user->state_id) == $state->id)>{{ $state->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div>
+            <x-input-label for="name" :value="__('Bank')" />
+            <select class="form-select mt-1" id="" name="bank_id">
+                @foreach ($banks as $bank)
+                    <option value="{{ $bank->id }}" @selected(old('bank_id', $user->bank_id) == $bank->id)>{{ $bank->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div>
+            <x-input-label for="name" :value="__('Bank Number')" />
+            <x-text-input class="form-control mt-1" id="name" name="bank_number" type="text" :value="old('bank_number', $user->bank_number)" required autofocus autocomplete="name" />
+            <x-input-error class="mt-2" :messages="$errors->get('address')" />
+        </div>
+
+        <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
+            <x-text-input class="form-control mt-1" id="email" name="email" type="email" :value="old('email', $user->email)" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
-            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
+            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
                 <div>
-                    <p class="text-sm mt-2 text-gray-800">
+                    <p class="mt-2 text-sm text-gray-800">
                         {{ __('Your email address is unverified.') }}
 
-                        <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <button class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" form="send-verification">
                             {{ __('Click here to re-send the verification email.') }}
                         </button>
                     </p>
 
                     @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-green-600">
+                        <p class="mt-2 text-sm font-medium text-green-600">
                             {{ __('A new verification link has been sent to your email address.') }}
                         </p>
                     @endif
@@ -51,13 +81,7 @@
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600"
-                >{{ __('Saved.') }}</p>
+                <p class="text-sm text-gray-600" x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)">{{ __('Saved.') }}</p>
             @endif
         </div>
     </form>

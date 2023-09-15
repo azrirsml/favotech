@@ -30,7 +30,7 @@
              <!--end::Menu separator-->
              <!--begin::Menu item-->
              <div class="menu-item px-5">
-                 <a class="menu-link" href="../../demo45/dist/account/overview.html">My Profile</a>
+                 <a class="menu-link" href="{{ route('profile.edit') }}">My Profile</a>
              </div>
              <!--end::Menu item-->
 
