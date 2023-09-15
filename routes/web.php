@@ -39,9 +39,11 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('rents', RentController::class)->name('rents.index');
     Route::resource('rates', RateController::class)->only('create', 'store');
 
-    Route::get('users', [UserController::class, 'index'])->name('users.index');
-    Route::get('banned/{user}', [UserController::class, 'banned'])->name('users.banned');
-    Route::get('unbanned/{user}', [UserController::class, 'unbanned'])->name('users.unbanned');
+    Route::middleware('role:admin')->group(function () {
+        Route::get('users', [UserController::class, 'index'])->name('users.index');
+        Route::get('banned/{user}', [UserController::class, 'banned'])->name('users.banned');
+        Route::get('unbanned/{user}', [UserController::class, 'unbanned'])->name('users.unbanned');
+    });
 });
 
 require __DIR__ . '/auth.php';
