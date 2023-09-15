@@ -126,9 +126,9 @@ class CreatePermissionTables extends Migration
             ->forget(config('permission.cache.key'));
 
         \DB::table('roles')->insert([
+            ['name' => 'admin', 'guard_name' => 'web'],
             ['name' => 'tenant', 'guard_name' => 'web'],
             ['name' => 'owner', 'guard_name' => 'web'],
-            ['name' => 'admin', 'guard_name' => 'web'],
         ]);
 
         \DB::table('users')->insert([

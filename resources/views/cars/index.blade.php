@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-card title="Manage Cars">
-        @role('owner')
+        @role('owner|admin')
             <x-slot:button href="{{ route('cars.create') }}">
                 Add Car
             </x-slot:button>
@@ -66,7 +66,7 @@
                     <td>{{ $car->available_date }}</td>
                     <td>
                         <div class="btn btn-group">
-                            @role('owner')
+                            @role('owner|admin')
                                 <a class="btn btn-primary btn-sm" href="{{ route('cars.edit', $car) }}">Edit</a>
                             @else
                                 <a class="btn btn-primary btn-sm" href="{{ route('cars.show', $car) }}">Rent</a>

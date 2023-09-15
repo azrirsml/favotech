@@ -27,6 +27,15 @@
                          </a>
                      </div>
 
+                     @role('admin')
+                         <div class="menu-item">
+                             <a class="menu-link" href="{{ route('users.index') }}">
+                                 <span class="menu-title text-dark">Users</span>
+                                 <span class="menu-arrow d-lg-none"></span>
+                             </a>
+                         </div>
+                     @endrole
+
                      <div class="menu-item">
                          <a class="menu-link" href="{{ route('rents.index') }}">
                              <span class="menu-title text-dark">My Rent</span>
