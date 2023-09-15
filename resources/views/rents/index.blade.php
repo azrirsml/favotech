@@ -35,7 +35,9 @@
                                     <a class="btn btn-primary btn-sm" href="{{ route('rates.create', ['car' => $rent->car]) }}">Rate</a>
                                 @endif
                             @endrole
-                            <a class="btn btn-secondary btn-sm" href="{{ $rent->getFirstMediaUrl('receipts') }}" target="_blank">Receipt</a>
+                            @if ($rent->hasMedia('receipts'))
+                                <a class="btn btn-secondary btn-sm" href="{{ $rent->getFirstMediaUrl('receipts') }}" target="_blank">Receipt</a>
+                            @endif
                         </div>
                     </td>
                 </tr>

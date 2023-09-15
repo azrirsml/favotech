@@ -13,8 +13,14 @@ class PaymentController extends Controller
      */
     public function __invoke(Rent $rent)
     {
-        $rent->status = 'success';
-        $rent->save();
+        if ($rent->status != 'success') {
+            $rent->status = 'success';
+            $rent->save();
+
+            Rent::where('status', '!=', 'success')->update(['status' => 'fully booked']);
+
+            $rent->car()->update(['status' => 'not available']);
+        }
 
         $tenant = $rent->tenant;
 
