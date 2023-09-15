@@ -11,20 +11,4 @@ class UserController extends Controller
     {
         return view('users.index', ['users' => User::all()]);
     }
-
-    public function banned(User $user)
-    {
-        $user->status = 'banned';
-        $user->save();
-
-        return back();
-    }
-
-    public function unbanned(User $user)
-    {
-        $user->status = 'active';
-        $user->save();
-
-        return back();
-    }
 }

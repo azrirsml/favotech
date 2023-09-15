@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\ChangeUserStatusController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RateController;
@@ -41,8 +42,7 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     Route::middleware('role:admin')->group(function () {
         Route::get('users', [UserController::class, 'index'])->name('users.index');
-        Route::get('banned/{user}', [UserController::class, 'banned'])->name('users.banned');
-        Route::get('unbanned/{user}', [UserController::class, 'unbanned'])->name('users.unbanned');
+        Route::get('change-status/{user}', ChangeUserStatusController::class)->name('users.change_status');
     });
 });
 

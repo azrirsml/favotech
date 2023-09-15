@@ -17,11 +17,13 @@
                     <td>{{ $user->status }}</td>
                     <td>
                         <div class="btn btn-group">
-                            @if ($user->status == 'active')
-                                <a class="btn btn-primary btn-sm" href="{{ route('users.banned', $user) }}">Banned</a>
-                            @else
-                                <a class="btn btn-primary btn-sm" href="{{ route('users.unbanned', $user) }}">Unbanned</a>
-                            @endif
+                            <a href="{{ route('users.change_status', $user) }}" @class([
+                                'btn btn-sm',
+                                'btn-success' => $user->status != 'active',
+                                'btn-danger' => $user->status == 'active',
+                            ])>
+                                {{ $user->status == 'active' ? 'Banned' : 'Active' }}
+                            </a>
                         </div>
                     </td>
                 </tr>

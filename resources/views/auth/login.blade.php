@@ -3,7 +3,7 @@
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <p>Admin: admin@email.com</p>
-    <p>Password: Password</p>
+    <p>Password: password</p>
 
     <div class="separator my-4"></div>
 
