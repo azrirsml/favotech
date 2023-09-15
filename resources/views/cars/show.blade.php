@@ -20,7 +20,7 @@
     </x-card>
 
     <x-card>
-        <form action="{{ route('cars.rent', $car) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('rents.store', $car) }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-6 mb-8">

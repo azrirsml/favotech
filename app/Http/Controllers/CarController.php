@@ -7,7 +7,6 @@ use App\Http\Requests\UpdateCarRequest;
 use App\Models\Car;
 use App\Models\CarType;
 use App\Models\State;
-use App\Notifications\CarRentalPayment;
 use Illuminate\Http\Request;
 
 class CarController extends Controller
@@ -91,36 +90,5 @@ class CarController extends Controller
         }
 
         return to_route('cars.index', ['cars' => Car::carLists()]);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Car $car)
-    {
-        //
-    }
-
-    public function rent(Request $request, Car $car)
-    {
-        auth()->user()->rents()->create($request->validate([
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'receipt' => ['required', 'exclude'],
-        ]) + ['car_id' => $car->id]);
-
-        if ($request->hasFile('receipt')) {
-            $car->clearMediaCollection('receipts'); // remove old files
-            $car->addMedia($request->receipt)->toMediaCollection('receipts');
-        }
-
-        //notify email ke owner
-        $owner = $car->owner;
-
-        if ($owner) {
-            $owner->notify(new CarRentalPayment(auth()->user()));
-        }
-
-        return to_route('cars.index');
     }
 }

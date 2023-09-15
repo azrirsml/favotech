@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Car;
 use App\Models\Rent;
+use App\Notifications\CarRentalPayment;
 use Illuminate\Http\Request;
 
 class RentController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
         $ownerCarIds = auth()->user()->cars()->pluck('id')->toArray();
 
@@ -18,5 +20,28 @@ class RentController extends Controller
             ->get();
 
         return view('rents.index', ['rents' => $rents]);
+    }
+
+    public function store(Request $request, Car $car)
+    {
+        $rent = auth()->user()->rents()->create($request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'receipt' => ['required', 'exclude'],
+        ]) + ['car_id' => $car->id]);
+
+        if ($request->hasFile('receipt')) {
+            $rent->clearMediaCollection('receipts'); // remove old files
+            $rent->addMedia($request->receipt)->toMediaCollection('receipts');
+        }
+
+        //notify email ke owner
+        $owner = $car->owner;
+
+        if ($owner) {
+            $owner->notify(new CarRentalPayment(auth()->user()));
+        }
+
+        return to_route('rents.index');
     }
 }

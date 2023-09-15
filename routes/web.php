@@ -33,11 +33,12 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::post('cars/{car}/rent', [CarController::class, 'rent'])->name('cars.rent');
     Route::resource('cars', CarController::class);
 
     Route::get('payment-received/{rent}', PaymentController::class)->name('payment_received');
-    Route::get('rents', RentController::class)->name('rents.index');
+    Route::get('rents', [RentController::class, 'index'])->name('rents.index');
+    Route::post('rents/{car}', [RentController::class, 'store'])->name('rents.store');
+
     Route::resource('rates', RateController::class)->only('create', 'store');
 
     Route::middleware('role:admin')->group(function () {
