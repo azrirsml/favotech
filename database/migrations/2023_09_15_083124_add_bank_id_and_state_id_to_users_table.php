@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->after('address', function ($table) {
-                $table->unsignedBigInteger('bank_id');
+                $table->unsignedBigInteger('bank_id')->nullable();
                 $table->foreign('bank_id')->references('id')->on('banks');
                 $table->string('bank_number')->nullable();
-                $table->unsignedBigInteger('state_id');
+                $table->unsignedBigInteger('state_id')->nullable();
                 $table->foreign('state_id')->references('id')->on('states');
             });
         });
