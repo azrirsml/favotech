@@ -22,21 +22,12 @@ class Rent extends Model implements HasMedia
 
     public function tenant()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'tenant_id');
     }
 
     public function car()
     {
         return $this->belongsTo(Car::class);
-    }
-
-    public static function rentLists()
-    {
-        $ownerCarIds = auth()->user()->cars()->pluck('id')->toArray();
-
-        return auth()->user()->isOwner()
-            ? Rent::whereIn('car_id', $ownerCarIds)->get()
-            : Rent::where('tenant_id', auth()->id())->get();
     }
 
     public function registerMediaConversions(Media $media = null): void

@@ -5,6 +5,7 @@
             <x-slot:header>
                 <th>ID</th>
                 <th>Owner Name</th>
+                <th>Tenant Name</th>
                 <th>Car</th>
                 <th>Price</th>
                 <th>Status</th>
@@ -17,6 +18,7 @@
                 <tr>
                     <td>{{ $rent->id }}</td>
                     <td>{{ $rent->car?->owner?->name }}</td>
+                    <td>{{ $rent->tenant?->name }}</td>
                     <td>{{ $rent->car?->name }}</td>
                     <td>{{ $rent->car?->rent_price }}</td>
                     <td>{{ $rent->status }}</td>

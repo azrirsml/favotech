@@ -54,4 +54,9 @@ class User extends Authenticatable
     {
         return auth()->user()->hasRole('owner');
     }
+
+    public function isTenant()
+    {
+        return auth()->user()->hasRole('tenant');
+    }
 }

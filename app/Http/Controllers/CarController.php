@@ -18,6 +18,7 @@ class CarController extends Controller
     public function index(Request $request)
     {
         $cars = Car::query()
+            ->with('carType', 'owner')
             ->when(auth()->user()->isOwner(), fn ($query) => $query->where('owner_id', auth()->id()))
             ->when($request->state_id, fn ($query) => $query->whereHas('owner', function ($owner) use ($request) {
                 $owner->where('state_id', $request->state_id);
