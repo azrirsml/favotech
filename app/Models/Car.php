@@ -15,6 +15,8 @@ class Car extends Model implements HasMedia
 
     protected $guarded = [];
 
+    protected $dates = ['available_date'];
+
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id');
@@ -23,13 +25,6 @@ class Car extends Model implements HasMedia
     public function carType()
     {
         return $this->belongsTo(CarType::class);
-    }
-
-    public static function carLists()
-    {
-        return auth()->user()->isOwner()
-            ? Car::where('owner_id', auth()->id())->get()
-            : Car::all();
     }
 
     public function registerMediaConversions(Media $media = null): void

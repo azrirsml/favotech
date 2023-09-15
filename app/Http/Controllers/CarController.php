@@ -6,7 +6,7 @@ use App\Http\Requests\StoreCarRequest;
 use App\Http\Requests\UpdateCarRequest;
 use App\Models\Car;
 use App\Models\CarType;
-use App\Models\Rent;
+use App\Models\State;
 use App\Notifications\CarRentalPayment;
 use Illuminate\Http\Request;
 
@@ -15,9 +15,23 @@ class CarController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('cars.index', ['cars' => Car::carLists()]);
+        $cars = Car::query()
+            ->when(auth()->user()->isOwner(), fn ($query) => $query->where('owner_id', auth()->id()))
+            ->when($request->state_id, fn ($query) => $query->whereHas('owner', function ($owner) use ($request) {
+                $owner->where('state_id', $request->state_id);
+            }))
+            ->when($request->car_type_id, fn ($query) => $query->where('car_type_id', $request->car_type_id))
+            ->when($request->rent_price, fn ($query) => $query->where('rent_price', '<', $request->rent_price))
+            ->when($request->available_date, fn ($query) => $query->whereDate('available_date', $request->available_date))
+            ->get();
+
+        return view('cars.index', [
+            'cars' => $cars,
+            'states' => State::all(),
+            'carTypes' => CarType::all(),
+        ]);
     }
 
     /**
@@ -41,7 +55,7 @@ class CarController extends Controller
             }
         }
 
-        return to_route('cars.index', ['cars' => Car::carLists()]);
+        return to_route('cars.index');
     }
 
     /**
@@ -106,6 +120,6 @@ class CarController extends Controller
             $owner->notify(new CarRentalPayment(auth()->user()));
         }
 
-        return to_route('cars.index', ['cars' => Car::carLists()]);
+        return to_route('cars.index');
     }
 }
